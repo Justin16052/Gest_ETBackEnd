@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+<div class="wrapper">
+  <div class="page-header clear-filter" filter-color="orange">
+    <div class="page-header-image rellax-header" data-rellax-speed="-7"
+      style="background-image: url('assets/img/header.jpg');">
+
+    </div>
+    <div class="container">
+      <div class="content-center brand">
+
+        <h3>Gérer vos étudiants en toute simplicité</h3>
+
+        <h4>Grâce a notre solution simple et optimal</h4>
+        <a *ngIf="!isAuthentificated()" [routerLink]="'/login'" class="btn btn-primary h5">S'authentifier</a>
+        <a *ngIf="isAuthentificated()" [routerLink]="'/menu'" class="btn btn-primary h5">Menu principal</a>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,318 @@
+<div class="card">
+  <div class="header">
+
+    <!--
+    <h4 class="title"><span class="now-ui-icons education_hat"></span> Etudiant</h4>
+    <br>
+    -->
+    <button *ngIf="mode == 'list'" rel="tooltip" title="Ajouter un etudiant"
+      class="btn btn-info btn-fill now-ui-icons ui-1_simple-add" (click)="onNewetudiant()">
+    </button>
+
+  </div>
+  <div class="content">
+    <div *ngIf="mode=='new-etudiant'" class="container ">
+      <div class="row">
+        <div class="col-md-12 card">
+          <div class="header">
+            <h4 class="title">Ajouter un étudiant</h4>
+          </div>
+          <div class="content">
+            <form #f="ngForm" (ngSubmit)="onSaveEtudiant(f.value)">
+              <div class="row">
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Nom </label>
+                    <input type="text" name="nom" ngModel class="form-control" placeholder="Nom" value="">
+                  </div>
+                </div>
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Prénom </label>
+                    <input type="text" name="prenom" ngModel class="form-control" placeholder="Prénom" value="">
+                  </div>
+                </div>
+                <div class="col-md-6 ">
+                  <div class="form-group">
+                    <label>Date de naissance </label>
+                    <input type="date" name="dateNaissance" ngModel class="form-control" placeholder="Date de naissance" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Grade </label>
+                    <input type="text" name="grade" ngModel class="form-control" placeholder="Grade" value="">
+                  </div>
+                </div>
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Filiere</label>
+
+                    <select name="filiereId" ngModel class="form-control" placeholder="filiere">
+                      <option *ngFor="let filiere of filieres" value="{{filiere.filiereId}}">{{filiere.filiere}} </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Tel </label>
+                    <input type="number" name="numero" ngModel class="form-control" placeholder="Téléphone" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Email </label>
+                    <input type="text" name="email" ngModel class="form-control" placeholder="Email" value="">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Pseudo </label>
+                    <input type="text" name="pseudo" ngModel class="form-control" placeholder="Pseudo" value="">
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Mot de passe </label>
+                    <input type="password" name="password" ngModel class="form-control" placeholder="mot de passe" value="">
+                  </div>
+                </div>
+
+                <div class="col-md-3" hidden="true">
+                  <div class="form-group">
+                    <label>Identifiant </label>
+                    <input type="text" name="identifiant" ngModel class="form-control" placeholder="identifiant">
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <button type="reset" (click)="onCancel()"
+                    class="btn btn-secondary btn-fill float-right">Annuler</button>
+                  <button type="submit" class="btn btn-info btn-fill float-right">Ajouter</button>
+
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+              <br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="mode=='edit-etudiant'" class="container ">
+      <div class="row">
+        <div class="col-md-12 card">
+          <div class="header">
+            <h4 class="title">Modification</h4>
+          </div>
+          <div class="content">
+            <form #f="ngForm" (ngSubmit)="onSaveEtudiant(f.value)">
+              <div class="row">
+                <div class="col-md-3 " hidden="true">
+                  <div class="form-group">
+                    <label>Ref </label>
+                    <input type="text" name="etudiantId" ngModel class="form-control" placeholder="etudiantId" ngModel="{{editdoctorant.etudiantId}}">
+                  </div>
+                </div>
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Nom </label>
+                    <input type="text" name="nom" ngModel class="form-control" placeholder="Nom" ngModel="{{editdoctorant.nom}}">
+                  </div>
+                </div>
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Prénom </label>
+                    <input type="text" name="prenom" ngModel class="form-control" placeholder="Prénom" ngModel="{{editdoctorant.prenom}}">
+                  </div>
+                </div>
+                <div class="col-md-6 ">
+                  <div class="form-group">
+                    <label>Date de naissance </label>
+                    <input type="date" name="dateNaissance" ngModel class="form-control" placeholder="Date de naissance" ngModel="{{editdoctorant.dateNaissance| date:'yyyy-MM-dd'}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Grade </label>
+                    <input type="text" name="grade" ngModel class="form-control" placeholder="Grade" ngModel="{{editdoctorant.grade}}">
+                  </div>
+                </div>
+
+                <div class="col-md-3 ">
+                  <div class="form-group">
+                    <label>Filiere</label>
+
+                    <select name="filiereId" ngModel class="form-control" placeholder="filiere" [(ngModel)]="editdoctorant.filiereId">
+                      <option *ngFor="let filiere of filieres" value="{{filiere.filiereId}}">{{filiere.filiere}} </option>
+                    </select>
+                  </div>
+                </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tel </label>
+                  <input type="text" name="numero" ngModel class="form-control" placeholder="Téléphone" ngModel="{{editdoctorant.numero}}">
+                </div>
+              </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Email </label>
+                    <input type="text" name="email" ngModel class="form-control" placeholder="Email" ngModel="{{editdoctorant.email}}">
+                  </div>
+                </div>
+
+                <div class="col-md-3"  hidden="true">
+                  <div class="form-group">
+                    <label>Pseudo </label>
+                    <input disabled="true" type="text" name="pseudo" ngModel class="form-control" placeholder="Pseudo" value="" ngModel="{{editdoctorant.identifiant.pseudo}}">
+                  </div>
+                </div>
+
+                <div class="col-md-3" hidden="true">
+                  <div class="form-group">
+                    <label>Mot de passe </label>
+                    <input type="password" name="password" ngModel class="form-control" placeholder="mot de passe" ngModel="{{editdoctorant.identifiant.motDePasse}}">
+                  </div>
+                </div>
+
+                <div class="col-md-3" hidden="true">
+                  <div class="form-group">
+                    <label>IdentifiantId </label>
+                    <input type="text" name="identifiantId" ngModel class="form-control" placeholder="identifiantId" ngModel="{{editdoctorant.identifiantId}}">
+                  </div>
+                </div>
+
+                <div class="col-md-3" hidden="true">
+                  <div class="form-group">
+                    <label>Identifiant </label>
+                    <input type="text" name="identifiant" ngModel class="form-control" placeholder="identifiant">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-check">
+                    <label class="form-check-label" for="exampleCheck1">
+                      <input name="activated" ngModel type="checkbox" class="form-check-input" [(ngModel)]="editdoctorant.activated"
+                        id="exampleCheck1">
+                      <span class="form-check-sign"></span> Activé</label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <button type="reset" (click)="onCancel()"
+                    class="btn btn-secondary btn-fill float-right">Annuler</button>
+                  <button type="submit" class="btn btn-info btn-fill float-right">Modifier</button>
+
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="mode == 'list'" class="content">
+      <div class="ct-chart">
+        <div class="table-full-width">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="text-center"> </th>
+                <th class="text-center"> Nom</th>
+                <th class="text-center"> Prénom</th>
+                <th class="text-center"> Grade</th>
+                <th class="text-center"> Email</th>
+                <th class="text-center"> Activé</th>
+                <th class="text-center"> Modifier</th>
+                <th class="text-center"> Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="button" *ngFor=" let d of pageOfItems">
+                <td class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="now-ui-icons education_hat"></i>
+                </td>
+                <td class="text-center">{{d.nom}}</td>
+                <td class="text-center">{{d.prenom}}</td>
+                <td class="text-center">{{d.grade}}</td>
+                <td class="text-center">{{d.email}}</td>
+                <td class="text-center">
+                  <button type="button" rel="tooltip" title="Activé"
+                    class="btn btn-success btn-simple btn-xs">
+                    <i
+                      [class]=" d.activated== true ? 'now-ui-icons ui-1_check' : 'now-ui-icons ui-1_simple-remove'"></i>
+                  </button>
+                </td>
+
+                <td class="text-center">
+
+                  <button  type="button" rel="tooltip" title="Modifier" class="btn btn-info btn-simple btn-xs" (click)="onEdit(d)">
+                    <i class="now-ui-icons arrows-1_refresh-69"></i>
+                  </button>
+                </td>
+
+                <td style="width:100px">
+                  <div class="d-inline-block" ngbDropdown placement="left-top">
+                    <button type="button" ngbDropdownToggle class="mb-2 btn btn-primary"></button>
+                    <div ngbDropdownMenu>
+                      <button type="button" tabindex="0" class="dropdown-item" [routerLink]="['/menu/etudiants/absences/',d.etudiantId,d.filiereId]">
+                        <i class="dropdown-icon lnr-inbox"></i><span>Absences</span>
+                      </button>
+
+                      <button type="button" tabindex="-1" target="_blank" class="dropdown-item" [routerLink]="['/menu/etudiants/notes/',d.filiereId]">
+                        <i class="dropdown-icon lnr-inbox"></i><span>Notes</span>
+                      </button>
+                      <button type="button" tabindex="0" class="dropdown-item" [routerLink]="['/menu/etudiants/documents/',d.etudiantId]">
+                        <i class="dropdown-icon lnr-inbox"></i><span>Documents</span>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div *ngIf="mode == 'list'" class="legend text-center" >
+        <div class="pagination pagination-primary text-center">
+          <jw-pagination  [items]="doctorants" [pageSize]="3" (changePage)="onChangePage($event)"></jw-pagination>
+        </div>
+        <br>
+      </div>
+      <hr *ngIf="true">
+      <div class="stats">
+        <i [ngClass]="'fa fa-clock-o'"></i> Eschool © 2023 </div>
+    </div>
+  </div>
+</div>

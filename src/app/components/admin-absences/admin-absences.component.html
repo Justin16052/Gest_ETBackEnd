@@ -1,0 +1,224 @@
+<div class="card">
+
+  <div class="header">
+    <!--
+    <h4 class="title"><span class="now-ui-icons education_hat"></span>Nom de l'etudiant</h4>
+    <br>
+    -->
+
+    <button *ngIf="mode == 'list'" rel="tooltip" title="Ajouter une Absence"
+      class="btn btn-info btn-fill now-ui-icons ui-1_simple-add" (click)="onNewAbsence()">
+    </button>
+
+  </div>
+
+<div class="content">
+  <!-- Partie AJOUT -->
+  <div *ngIf="mode=='new-absence'" class="container ">
+    <div class="row">
+      <div class="col-md-12 card">
+        <div class="header">
+          <h4 class="title">Ajouter une absence</h4>
+        </div>
+        <div class="content">
+          <form #f="ngForm" (ngSubmit)="onSaveAbsence(f.value)">
+            <div class="row">
+              <div class="col-md-3" hidden="true">
+                <div class="form-group">
+                  <label>Ref etudiant </label>
+                  <input type="number" [(ngModel)]="etudiantId" name="etudiantId" ngModel class="form-control" placeholder="etudiantId" value="">
+                </div>
+              </div>
+              <div class="col-md-3 ">
+                <div class="form-group">
+                  <label>Nombre d'heure </label>
+                  <input type="number" name="nombreHeure" ngModel class="form-control" placeholder="Heure" value="">
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="form-group">
+                  <label>Date Absence </label>
+                  <input type="date" name="dateAbsence" ngModel class="form-control" placeholder="Date de Absence" value="">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 ">
+                <div class="form-group">
+                    <label>Listes Module</label>
+                    <mat-select ngModel class="form-control" name="moduleId">
+                      <mat-option *ngFor="let module of modules" value="{{module.moduleId}}">{{module.nom}}</mat-option>
+                    </mat-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-check">
+                  <label class="form-check-label" for="exampleCheck1">
+                    <input ngModel name="isJustified" ngModel type="checkbox" class="form-check-input"
+                      id="exampleCheck1">
+                    <span class="form-check-sign"></span> Justifié?</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="reset" (click)="onCancel()"
+                  class="btn btn-secondary btn-fill float-right">Retour</button>
+                <button type="submit" class="btn btn-info btn-fill float-right">Ajouter</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Partie Edit  -->
+  <div *ngIf="mode=='edit-absence'" class="container ">
+    <div class="row">
+      <div class="col-md-12 card">
+        <div class="header">
+          <h4 class="title">Modifier une absence</h4>
+        </div>
+        <div class="content">
+          <form #f="ngForm" (ngSubmit)="onUpdateAbsence(f.value)">
+            <div class="row">
+              <div class="col-md-3" hidden="true">
+                <div class="form-group">
+                  <label>Refernce</label>
+                  <input type="number" name="absenceId" ngModel [(ngModel)]="editabsence.absenceId" class="form-control" placeholder="Heure" value="">
+                </div>
+              </div>
+
+              <div class="col-md-3" hidden="true">
+                <div class="form-group">
+                  <label>EtudiantId</label>
+                  <input type="number" name="etudiantId" ngModel [(ngModel)]="editabsence.etudiantId" class="form-control" placeholder="Heure" value="">
+                </div>
+              </div>
+
+              <div class="col-md-3 ">
+                <div class="form-group">
+
+                  <label>Nombre d'heure </label>
+                  <input type="number" name="nombreHeure" ngModel [(ngModel)]="editabsence.nombreHeure" class="form-control" placeholder="Heure" value="">
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="form-group">
+                  <label>Date Absence </label>
+                  <input type="date" name="dateAbsence" ngModel ngModel="{{editabsence.dateAbsence | date:'yyyy-MM-dd'}}" class="form-control" placeholder="Date de Absence" value="">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-3">
+                <div class="form-group">
+
+                    <label>Listes Module</label>
+                    <select ngModel class="form-control" name="moduleId" [(ngModel)]="editabsence.module.moduleId">
+                      <option *ngFor="let module of modules" [value]="module.moduleId">{{module.nom}}</option>
+                    </select>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-check">
+                  <label class="form-check-label" for="exampleCheck1">
+                    <input name="activated" ngModel [(ngModel)]="editabsence.isJustified" name="isJustified" ngModel type="checkbox" class="form-check-input"
+                      id="exampleCheck1">
+                    <span class="form-check-sign"></span> Justifié?</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="reset" (click)="onCancel()"
+                  class="btn btn-secondary btn-fill float-right">Retour</button>
+                <button type="submit" class="btn btn-info btn-fill float-right">Modifier</button>
+
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Partie Affichage -->
+
+  <div *ngIf="mode == 'list'" class="content">
+    <div class="ct-chart">
+      <div class="table-full-width">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th class="text-center"> </th>
+              <th class="text-center"> Module</th>
+              <th class="text-center"> Nombre Heure</th>
+              <th class="text-center"> Date Absence</th>
+              <th class="text-center"> Absence justifiée</th>
+              <th class="text-center"> Modifier</th>
+              <th class="text-center"> Supprimer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="button" *ngFor="let absence of absences">
+              <td class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="now-ui-icons education_hat"></i>
+              </td>
+
+              <td class="text-center">{{absence.module.nom}}</td>
+              <td class="text-center">{{absence.nombreHeure}}</td>
+              <td class="text-center">{{absence.dateAbsence | date:'yyyy-MM-dd'}}</td>
+              <td class="text-center">
+                <div rel="tooltip" style="border:none" title="Justifié" class="btn btn-success btn-simple btn-xs">
+                  <i [class]="absence.isJustified== true ? 'now-ui-icons ui-1_check' : 'now-ui-icons ui-1_simple-remove'"></i>
+                </div>
+              </td>
+
+              <td class="text-center">
+
+                <button  type="button" rel="tooltip" title="Modifier"  style="border:none"  class="btn btn-info btn-simple btn-xs" (click)="onEdit(absence)">
+                  <i class="now-ui-icons arrows-1_refresh-69"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button  type="button" rel="tooltip" title="Modifier"  style="border:none" (click)="delete(absence.absenceId)"  class="btn btn-info btn-simple btn-xs">
+                  <i style="color: red;" class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="footer">
+    <div *ngIf="mode == 'list'" class="legend text-center" >
+      <div class="pagination pagination-primary text-center">
+        <jw-pagination  [items]="doctorants" [pageSize]="3" (changePage)="onChangePage($event)"></jw-pagination>
+      </div>
+      <br>
+    </div>
+    <hr *ngIf="true">
+    <div class="stats">
+      <i [ngClass]="'fa fa-clock-o'"></i> Eschool © 2023 </div>
+  </div>
+
+  </div>
+
+
+</div>

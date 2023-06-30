@@ -1,0 +1,102 @@
+<div class="card">
+
+  <div class="header">
+    <!--
+    <h4 class="title"><span class="now-ui-icons education_hat"></span>Nom de l'etudiant</h4>
+    <br>
+    <p class="category"></p>
+    -->
+    <button *ngIf="mode == 'list'" rel="tooltip" title="Ajouter un Document"
+      class="btn btn-info btn-fill now-ui-icons ui-1_simple-add" (click)="onNewDoc()">
+    </button>
+  </div>
+
+  <!-- Partie ADD -->
+  <div *ngIf="mode=='new-doc'" class="container ">
+    <div class="row">
+      <div class="col-md-12 card">
+        <div class="header">
+          <h4 class="title">Ajouter un document pdf</h4>
+        </div>
+        <div class="content">
+          <form #f="ngForm" (ngSubmit)="onSaveDoc()">
+             <input type="file" ngNodel name="file" (change)="fileChangeEvent($event)" class="fileInputProfile">
+
+             <ng-container *ngIf="isImageSaved; else elseTemplate">
+                <img style="width: 150px;height:150px" [src]="cardImageBase64"/>
+             </ng-container>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="reset" (click)="onCancel()"
+                  class="btn btn-secondary btn-fill float-right">Retour</button>
+                <button type="submit" class="btn btn-info btn-fill float-right">Ajouter</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partie List -->
+
+  <div *ngIf="mode == 'list'" class="content">
+    <div class="ct-chart">
+      <div class="table-full-width">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+
+              <th class="text-center"> Extension</th>
+
+              <th class="text-center"> Ouvrir</th>
+              <th class="text-center"> Supprimer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="button" *ngFor=" let d of documents">
+
+
+              <td class="text-center">{{d.extension}}</td>
+
+
+              <!--A partir de la -->
+              <td class="text-center">
+
+                <button  type="button" style="border: none;" rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-xs" (click)="onSee(d.designation)">
+                  <i class="now-ui-icons education_glasses"></i>
+                </button>
+              </td>
+
+              <td class="text-center">
+
+                <button  type="button" style="border: none;" rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-xs" (click)="onDel(d.documentId)">
+                  <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div *ngIf="mode == 'list'" class="legend text-center" >
+      <div class="pagination pagination-primary text-center">
+        <jw-pagination  [items]="doctorants" [pageSize]="3" (changePage)="onChangePage($event)"></jw-pagination>
+      </div>
+      <br>
+    </div>
+    <hr *ngIf="true">
+    <div class="stats">
+      <i [ngClass]="'fa fa-clock-o'"></i> Eschool © 2023 </div>
+  </div>
+
+</div>
